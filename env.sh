@@ -11,7 +11,7 @@ EOF
 ssh m1 "hostnamectl --static set-hostname master.k8s"
 ssh m2 "hostnamectl --static set-hostname node1.k8s"
 ssh m3 "hostnamectl --static set-hostname node2.k8s"
-ssh m4 "hostnamectl --static set-hostname node2.k8s"
+ssh m4 "hostnamectl --static set-hostname node3.k8s"
 
 scp ${tmp} m1:/etc/hosts 
 scp ${CONFIG_FILE} m1:
