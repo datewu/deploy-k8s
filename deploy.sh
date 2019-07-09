@@ -31,9 +31,6 @@ systemctl enable docker && systemctl start docker
 systemctl enable kubelet && systemctl start kubelet
 
 DOCKER_CGROUPS=$(docker info | grep 'Cgroup' | cut -d' ' -f3)
-cat >/etc/sysconfig/kubelet<<EOF
-KUBELET_EXTRA_ARGS="--cgroup-driver=$DOCKER_CGROUPS --pod-infra-container-image=registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1"
-EOF
 systemctl daemon-reload
 systemctl restart kubelet
 
