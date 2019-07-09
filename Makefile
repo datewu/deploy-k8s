@@ -16,10 +16,10 @@ master: setEnv
 	@echo deploy master
 	cat deploy.sh | ssh m1
 	@echo take note:
-	false
 
 node:
 	@echo deploy node
+	@echo YOU MUST comment OUT node.sh last LINE
 	cat node.sh | ssh m2
 	cat node.sh | ssh m3
 	cat node.sh | ssh m4

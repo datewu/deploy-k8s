@@ -37,5 +37,5 @@ EOF
 systemctl daemon-reload
 systemctl restart kubelet
 
-#kubeadm join 10.0.0.88:6443 --token yjm0ud.pg3vzz6l37y665x0 --discovery-token-ca-cert-hash sha256:90d9b4a99f82ecaaf04f15ea8dd0729617740dc3b016a9e12dd8039527d20b60
-#kubeadm join 10.0.0.88:6443 --token yjm0ud.pg3vzz6l37y665x0 --discovery-token-ca-cert-hash sha256:90d9b4a99f82ecaaf04f15ea8dd0729617740dc3b016a9e12dd8039527d20b60
+#kubeadm join 10.0.0.201:6443 --token header.text \
+#    --discovery-token-ca-cert-hash sha256:hash
