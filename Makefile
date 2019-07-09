@@ -9,13 +9,16 @@ ${CONFIG_FILE}:
 	./config.sh
 
 setEnv: ${CONFIG_FILE}
+	CONFIG_FILE=${CONFIG_FILE} \
 	./env.sh
 
 master: setEnv
 	@echo deploy master
 	cat deploy.sh | ssh m1
+	@echo take note:
+	false
 
-node: master
+node:
 	@echo deploy node
 	cat node.sh | ssh m2
 	cat node.sh | ssh m3

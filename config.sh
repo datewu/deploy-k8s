@@ -1,19 +1,33 @@
 cat >${CONFIG_FILE}<<EOF
-apiVersion: kubeadm.k8s.io/v1alpha2
-kind: MasterConfiguration
-kubernetesVersion: ${K8S_VER}
-imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers
-
-apiServerCertSANs:
-- "master.k8s"
-- "${IP}"
-- "127.0.0.1"
-
-api:
+apiVersion: kubeadm.k8s.io/v1beta2
+#bootstrapTokens:
+#- groups:
+#  - system:bootstrappers:kubeadm:default-node-token
+#  token: abcdef.0123456789abcdef
+#  ttl: 24h0m0s
+#  usages:
+#  - signing
+#  - authentication
+kind: InitConfiguration
+localAPIEndpoint:
   advertiseAddress: ${IP}
-  #controlPlaneEndpoint: 172.16.0.5:8443
-  controlPlaneEndpoint: ${IP}:6443
-
+  bindPort: 6443
+nodeRegistration:
+  criSocket: /var/run/dockershim.sock
+  name: ${M_HOSTNAME}
+  taints:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+---
+apiServer:
+  timeoutForControlPlane: 4m0s
+apiVersion: kubeadm.k8s.io/v1beta2
+certificatesDir: /etc/kubernetes/pki
+clusterName: kubernetes
+controlPlaneEndpoint: ${IP}:6443
+controllerManager: {}
+dns:
+  type: CoreDNS
 etcd:
   local:
     extraArgs:
@@ -28,16 +42,16 @@ etcd:
     peerCertSANs:
       - ${M_HOSTNAME}
       - ${IP}
+    dataDir: /var/lib/etcd
 
-controllerManagerExtraArgs:
-  node-monitor-grace-period: 10s
-  pod-eviction-timeout: 10s
-
+imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers
+kind: ClusterConfiguration
+kubernetesVersion: ${K8S_VER}
 networking:
+  dnsDomain: cluster.local
   podSubnet: 10.244.0.0/16
-  
-kubeProxy:
-  config:
-    mode: ipvs
-    #mode: iptables
+  serviceSubnet: 10.96.0.0/12
+scheduler:
+  extraArgs:
+    feature-gates: LocalStorageCapacityIsolation=true
 EOF

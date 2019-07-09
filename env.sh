@@ -14,6 +14,7 @@ ssh m3 "hostnamectl --static set-hostname node2.k8s"
 ssh m4 "hostnamectl --static set-hostname node2.k8s"
 
 scp ${tmp} m1:/etc/hosts 
+scp ${CONFIG_FILE} m1:
 scp ${tmp} m2:/etc/hosts 
 scp ${tmp} m3:/etc/hosts 
 scp ${tmp} m4:/etc/hosts 

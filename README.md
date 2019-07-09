@@ -1,14 +1,14 @@
-### deploy k8s using kubeadm
-```
-scp kubeadm-master.config master:
-cat deploy.sh | ssh master "bash -"
-cat node.sh | ssh node1 "bash -"
-cat node.sh | ssh node2 "bash -"
+# deploy k8s using kubeadm
 
+```shell
+make master
+# take down notes
+make node
 ```
 
-### Apply flannel network
-```
+## Apply flannel network
+
+```shell
 scp kube-flannel-aliyun.yml master:
 ssh master "kubectl create -f kube-flannel-aliyun.yml"
 ssh master "iptables -P FORWARD ACCEPT"
@@ -16,3 +16,8 @@ ssh node1 "iptables -P FORWARD ACCEPT"
 ssh node2 "iptables -P FORWARD ACCEPT"
 ```
 
+## kubeadm config debug
+
+```shell
+kubeadm config print init-defaults
+```
