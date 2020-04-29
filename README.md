@@ -2,7 +2,8 @@
 
 ```shell
 make master
-# take down notes
+# note down kubeadm JOIN TOKEN
+# to join worker nodes
 make node
 ```
 
